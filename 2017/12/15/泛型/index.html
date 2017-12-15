@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          wzhwcp | Blog
+          泛型 - wzhwcp | Blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/archives/2017/">
+    <link rel="canonical" href="http://yoursite-url/2017/12/15/泛型/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/undefined')
-            /*page*/
+            background-image: url('Demo.png')
+            /*post*/
         
     }
     
@@ -87,10 +87,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>wzhwcp</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Patience is a bitter plant that produces sweet fruit</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
+                            
+                        </div>
+                        <h1>泛型</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by wcp on
+                            2017-12-15
+                        </span>
                     </div>
                 
 
@@ -193,177 +201,229 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <h1 id="泛型">泛型</h1>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参数化类型</td>
+<td>List&lt;String&gt;</td>
+</tr>
+<tr>
+<td>实际类型参数</td>
+<td>String</td>
+</tr>
+<tr>
+<td>泛型</td>
+<td>List&lt;E&gt;</td>
+</tr>
+<tr>
+<td>形式类型参数</td>
+<td>E</td>
+</tr>
+<tr>
+<td>无限制通配符类型</td>
+<td>List&lt;?&gt;</td>
+</tr>
+<tr>
+<td>原生态类型</td>
+<td>List</td>
+</tr>
+<tr>
+<td>有限制类型参数</td>
+<td>&lt;E extends Number&gt;</td>
+</tr>
+<tr>
+<td>递归类型限制</td>
+<td>&lt; T extends Comparable&lt;T&gt;&gt;</td>
+</tr>
+<tr>
+<td>有限制通配符类型</td>
+<td>List&lt;? extends Number&gt;</td>
+</tr>
+<tr>
+<td>泛型方法</td>
+<td>static &lt;E&gt; List&lt;E&gt; asList(E[] a)</td>
+</tr>
+<tr>
+<td>类型令牌</td>
+<td>String.class</td>
+</tr>
+</tbody>
+</table>
+<h2 id="23不要在新代码中使用原生态类型">23.不要在新代码中使用原生态类型</h2>
+<p><strong>泛型</strong>：声明中具有一个或者多个类型参数的类或者接口</p>
+<p><strong>原生态类型</strong>：不带任何实际类型参数的泛型名称。每个泛型都定义一个原生态类型。</p>
+<p>​	如果使用原生态类型，就失掉了泛型在安全性和表述性方面的所有优势。</p>
+<p><strong>泛型和原生态类型的区别</strong>：List 和  List&lt;Object&gt;</p>
+<p>​	前者逃避了泛型检查，后者明确告知编译器，它能够持有任意类型的对象。</p>
+<p><strong>泛型子类化规则</strong>：</p>
+<p>​	List&lt;String&gt;是原生态类型List的一个子类型，而不是参数化类型List&lt;Object&gt;的子类。</p>
+<p>一下两种情况可以在代码中<strong>使用原生态类型</strong>：</p>
+<ol>
+<li>
+<p>在类文字中，必须使用原生态类型。</p>
+<p>List.class、String[]和int.class；</p>
+<p>其中类的类型： String.class = Class&lt;String&gt; ,Integer.class = Class&lt;Integer&gt;  其中 List&lt;String&gt; 和 List&lt;Integer&gt; 公用一个Class对象,即List.class</p>
+</li>
+<li>
+<p>instanceof 操作符有关</p>
+<p>在参数化类型而非无限制通配符类型上使用instanceof操作符是非法的</p>
+<p>​</p>
+</li>
+</ol>
+<h2 id="24消除非受检警告">24.消除非受检警告</h2>
+<p>尽可能消除每一个非受检警告，如果无法消除警告，同时可以证明引起的代码是安全的，可以用一个@SuppressWarnings（“unchecked”）注解来禁止这条警告，并且要添加一条注释，说明为什么这么做是安全的。</p>
+<p>应该始终在尽可能小的范围中使用SuppressWarnings注解，永远不要在整个类上使用SuppressWarnings，这么做可能会掩盖了重要的警告。</p>
+<h2 id="25列表优于数组">25.列表优于数组</h2>
+<p>数组与泛型的区别：</p>
+<p>数组是协变且可以具体化的</p>
+<p>泛型是不可变的且可以被擦除的。</p>
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
-                    <span class="tag-text">2017</span>
-                </span>
-                <ul>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    12-15
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/2017/12/15/泛型/" style="color: #0085a1">
-                        <span>
-                            泛型
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    03-18
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/2017/03/18/hexo-theme-beantech/" style="color: #0085a1">
-                        <span>
-                            [Hexo] Theme BeanTech
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/03/18/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">Next Post &rarr;</a>
+                        </li>
+                    
                 </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
             </div>
             
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#泛型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">泛型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#23不要在新代码中使用原生态类型"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">23.不要在新代码中使用原生态类型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#24消除非受检警告"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">24.消除非受检警告</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#25列表优于数组"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">25.列表优于数组</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
 
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
         </div>
     </div>
-</div>
+</article>
 
-                <!-- 如果开启评论功能 -->
-                
-            </div>
 
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
 
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-        
-            
-        
-            
-        
-    </div>
-</section>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2017/12/15/泛型/";
+    var disqus_url = "http://yoursite-url/2017/12/15/泛型/";
 
-        
-            <img id = "avatar_pic" src="/img/ironman-draw.png" />
-        
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
 
-        
-            <p>Hi, i&#39;m wzhwcp</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/wzhwcp">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2017/12/15/泛型/">泛型</a>
-        </li>
-      
-        <li>
-          <a href="/2017/03/18/hexo-theme-beantech/">[Hexo] Theme BeanTech</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        <!-- Friends Blog -->
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
